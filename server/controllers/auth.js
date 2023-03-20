@@ -1,4 +1,5 @@
 
 export const register = (req, res) => {
-    res.send('Server running from controller')
+    res.json('Server running from controller')
+    console.log('backend data', req.body)
 }
