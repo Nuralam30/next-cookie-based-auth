@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const Register = () => {
 
-    const [ name, setName ] = useState("");
-    const [ email, setEmail ] = useState("");
-    const [ password, setPassword ] = useState("");
-    const [ cPassword, setCpassword ] = useState("");
+    const [ name, setName ] = useState("Nura Alam");
+    const [ email, setEmail ] = useState("nur23@gmail.com");
+    const [ password, setPassword ] = useState("1234567");
+    const [ cPassword, setCpassword ] = useState("1234567");
 
     const handleSubmit = async (e) => {
 
@@ -67,7 +67,7 @@ const Register = () => {
                         required 
                     />
 
-                    <button className='btn w-100 btn-primary'>Register</button>
+                    <button type='submit' className='btn w-100 btn-primary'>Register</button>
                 </form>
             </div>
         </div>
