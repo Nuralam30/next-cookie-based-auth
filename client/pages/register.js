@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { SyncOutlined } from '@ant-design/icons';
 
 const Register = () => {
 
@@ -7,21 +9,30 @@ const Register = () => {
     const [ email, setEmail ] = useState("nur23@gmail.com");
     const [ password, setPassword ] = useState("1234567");
     const [ cPassword, setCpassword ] = useState("1234567");
+    const [ loading, setLoading ] = useState(false);
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
         
-        if(password === cPassword) {
-            const newUser = {
-                name,
-                email,
-                password
+        try {
+            setLoading(true);
+            if(password === cPassword) {
+                const newUser = {
+                    name,
+                    email,
+                    password
+                }
+                const response = await axios.post('http://127.0.0.1:8000/api/register', newUser);
+            }else{
+                window.alert('Password doesnot match');
             }
-            const response = await axios.post('http://127.0.0.1:8000/api/register', newUser);
-            console.log('response data ', response.data)
-        }else{
-            window.alert('Password doesnot match');
+            toast.success('Registration successful. please login')
+            setLoading(false)
+
+        } catch(err) {
+            toast.error(err.response.data)
+            setLoading(false)
         }
     }
 
@@ -30,6 +41,7 @@ const Register = () => {
             <h1 className='jumbotron text-center bg-primary'>Register page</h1>
 
             <div className="container p-2 pt-4 pb-4 col-md-4 offset-md-4">
+
                 <form onSubmit={handleSubmit}>
                     <input 
                         className='form-control mb-4' 
@@ -67,7 +79,13 @@ const Register = () => {
                         required 
                     />
 
-                    <button type='submit' className='btn w-100 btn-primary'>Register</button>
+                    <button 
+                    type='submit' 
+                    className='btn w-100 btn-primary'
+                    disabled={!name || !email || !password || loading}
+                    >
+                        {loading ? <SyncOutlined spin /> : "Register" }
+                    </button>
                 </form>
             </div>
         </div>

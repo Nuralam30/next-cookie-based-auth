@@ -15,7 +15,7 @@ export const register = async (req, res) => {
 
         const userExist = await User.findOne({email})
         if(userExist){
-            return res.status(400).send('User already exist.')
+            return res.status(400).send('Email already taken.')
         }
 
         const hashedPassword = await hashPassword(password);
@@ -25,8 +25,7 @@ export const register = async (req, res) => {
             password: hashedPassword
         })
         newUser.save();
-
-        return res.status(400).send('User registered successfully.')
+        res.json('User registered successfully.')
 
     } catch(err) {
         return res.status(400).send({message: err})
