@@ -23,7 +23,7 @@ const Register = () => {
                     email,
                     password
                 }
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_API}/register`, newUser);
+                const response = await axios.post(`/api/register`, newUser);
             }else{
                 window.alert('Password doesnot match');
             }
