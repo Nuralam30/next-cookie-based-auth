@@ -31,3 +31,23 @@ export const register = async (req, res) => {
         return res.status(400).send({message: err})
     }
 }
+
+
+export const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        if(!email) return res.status(400).send("Enter user email address")
+        if(!password) return res.status(400).send("Enter user password")
+
+        const hashedPassword = await hashPassword(password)
+        const comPassword = await comparePassword(password, hashedPassword)
+        if(comPassword){
+            const user = await User.findOne({email, hashedPassword})
+            return res.json(user)
+        }
+
+    } catch (error) {
+        return res.status(400).send("Something went wrong.")
+    }
+}

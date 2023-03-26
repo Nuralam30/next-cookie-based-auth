@@ -11,7 +11,6 @@ const TopNav = () => {
 
     useEffect(() => {
         process.browser && setCurrent(window.location.pathname)
-        console.log(window.location.pathname)
     }, [process.browser && window.location.pathname])
 
     return (
