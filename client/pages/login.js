@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 
 const Login = () => {
 
@@ -37,6 +38,7 @@ const Login = () => {
 
                     <button className='btn w-100 btn-primary'>Login</button>
                 </form>
+                <p className="text-center pt-4">Not registered ? <Link href='/register'>Register</Link></p>
             </div>
         </div>
     );
