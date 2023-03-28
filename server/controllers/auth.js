@@ -1,5 +1,8 @@
 import User from '../models/user';
 import { hashPassword, comparePassword } from './../utlis/auth';
+import jwt from 'jsonwebtoken';
+require("dotenv").config()
+
 
 export const register = async (req, res) => {
     
@@ -40,12 +43,34 @@ export const login = async (req, res) => {
         if(!email) return res.status(400).send("Enter user email address")
         if(!password) return res.status(400).send("Enter user password")
 
-        const hashedPassword = await hashPassword(password)
-        const comPassword = await comparePassword(password, hashedPassword)
-        if(comPassword){
-            const user = await User.findOne({email, hashedPassword})
-            return res.json(user)
+        // find user is regsistered or not
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(400).send("Email is not registered")
         }
+
+        // check password
+        const match = await comparePassword(password, user.password)
+        
+        if(!match){
+            return res.status(400).send("Password is incorrect")
+        }
+        
+        // create user token
+        const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {
+            expiresIn: "7d",
+        })
+
+        // send user and token to client and exclude password
+        user.password = undefined
+
+        //send token in cookie
+        res.cookie("token", token, {
+            httpOnly: true,
+            // secure: true // works on https only
+        })
+
+        res.json(user)
 
     } catch (error) {
         return res.status(400).send("Something went wrong.")
