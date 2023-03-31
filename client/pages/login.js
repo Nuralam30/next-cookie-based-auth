@@ -1,14 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { Context } from '../context';
 
 const Login = () => {
 
     const [email, setEmail] = useState("nur23@gmail.com");
     const [password, setPassword] = useState("1234567");
     const [loading, setLoading] = useState(false);
+
+    // state value
+    const {state, dispatch} = useContext(Context);
+    console.log('state', state)
 
 
     const handleSubmit = async (e) => {
@@ -23,6 +28,9 @@ const Login = () => {
                     password
                 }
                 const response = await axios.post('/api/login', user)
+
+                dispatch({type: 'LOGIN', payload: response.data})
+
             } else {
                 window.alert('email or password cannot be empty')
             }

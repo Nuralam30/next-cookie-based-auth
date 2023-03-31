@@ -48,22 +48,17 @@ export const login = async (req, res) => {
         if(!user){
             return res.status(400).send("Email is not registered")
         }
-
         // check password
         const match = await comparePassword(password, user.password)
-        
         if(!match){
             return res.status(400).send("Password is incorrect")
         }
-        
         // create user token
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {
             expiresIn: "7d",
         })
-
         // send user and token to client and exclude password
         user.password = undefined
-
         //send token in cookie
         res.cookie("token", token, {
             httpOnly: true,
