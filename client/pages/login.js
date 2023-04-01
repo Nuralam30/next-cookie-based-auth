@@ -13,8 +13,6 @@ const Login = () => {
 
     // state value
     const {state, dispatch} = useContext(Context);
-    console.log('state', state)
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,6 +28,7 @@ const Login = () => {
                 const response = await axios.post('/api/login', user)
 
                 dispatch({type: 'LOGIN', payload: response.data})
+                window.localStorage.setItem('user', JSON.stringify(response.data))
 
             } else {
                 window.alert('email or password cannot be empty')
@@ -39,7 +38,7 @@ const Login = () => {
             setLoading(false)
 
         } catch (err) {
-            toast.error(err.response.data)
+            toast.error(err)
             setLoading(false)
         }
 
