@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { Context } from '../context';
+import { useRouter } from 'next/router';
 
 const Login = () => {
 
@@ -13,6 +14,7 @@ const Login = () => {
 
     // state value
     const {state, dispatch} = useContext(Context);
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,6 +31,7 @@ const Login = () => {
 
                 dispatch({type: 'LOGIN', payload: response.data})
                 window.localStorage.setItem('user', JSON.stringify(response.data))
+                router.push('/')
 
             } else {
                 window.alert('email or password cannot be empty')

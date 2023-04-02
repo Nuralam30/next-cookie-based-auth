@@ -4,8 +4,13 @@
     padding: 40px 0px;
 }
 
-.ant-menu-item a{
+.ant-menu-item a,
+.ant-menu-submenu{
     text-decoration: none;
     font-size: 1rem;
     font-weight: 500;
+}
+
+.user-dashboard{
+    margin-left: auto;
 }
