@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
@@ -13,7 +13,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
 
     // state value
-    const {state, dispatch} = useContext(Context);
+    const {state: {user}, dispatch} = useContext(Context);
     const router = useRouter();
 
     const handleSubmit = async (e) => {
@@ -44,8 +44,11 @@ const Login = () => {
             toast.error(err)
             setLoading(false)
         }
-
     }
+
+    useEffect(() => {
+        if(user) router.push('/')
+    }, [user])
 
     return (
         <div>

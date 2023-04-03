@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { SyncOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { Context } from '../context';
+import { useRouter } from 'next/router';
 
 const Register = () => {
 
@@ -11,6 +13,11 @@ const Register = () => {
     const [ password, setPassword ] = useState("1234567");
     const [ cPassword, setCpassword ] = useState("1234567");
     const [ loading, setLoading ] = useState(false);
+
+    const { state } = useContext(Context);
+    const { user } = state;
+
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
 
@@ -25,6 +32,8 @@ const Register = () => {
                     password
                 }
                 const response = await axios.post(`/api/register`, newUser);
+                console.log(response.data)
+
             }else{
                 window.alert('Password doesnot match');
             }
@@ -36,6 +45,10 @@ const Register = () => {
             setLoading(false)
         }
     }
+
+    useEffect(() => {
+        if(user) router.push('/');
+    }, [user])
 
     return (
         <div>
